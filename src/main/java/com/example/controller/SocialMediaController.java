@@ -53,7 +53,6 @@ public class SocialMediaController {
         accountCont = accountService.login(account);
         if(accountCont.getAccountId()==0){
             return ResponseEntity.status(401).header("Content-Type", "application/json").body(account);
-
         }
         else{
             return ResponseEntity.status(200).header("Content-Type", "application/json").body(accountCont);

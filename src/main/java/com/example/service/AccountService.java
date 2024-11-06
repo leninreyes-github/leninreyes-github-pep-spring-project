@@ -21,9 +21,9 @@ public class AccountService {
     public Account registerNewUser(Account account) //throws DuplicateRowException
     {
         Optional<Account> accountOpt = accountRepository.findByUsernameAndPassword(account.getUsername(),account.getPassword());
- 
         if (accountOpt.isPresent()) {
             //throw new DuplicateRowException("Duplicate row found");
+            account.setAccountId(0); //future review
             return account;//accountOpt.get();
         } else {
                 account = accountRepository.save(account);
@@ -34,14 +34,11 @@ public class AccountService {
 
     public Account login(Account account){
         Optional<Account> accountOpt = accountRepository.findByUsernameAndPassword(account.getUsername(),account.getPassword());
-        System.out.println("AccountOpt:"+accountOpt.isPresent());
         if (accountOpt.isPresent()) {
-            System.out.println("esta presente");
             return accountOpt.get();
         }
         else{
-            
-            System.out.println("no esta presente");
+            account.setAccountId(0); //future review
             return account;
         }
     }
