@@ -21,13 +21,20 @@ public class AccountService {
     public Account registerNewUser(Account account) //throws DuplicateRowException
     {
         Optional<Account> accountOpt = accountRepository.findByUsernameAndPassword(account.getUsername(),account.getPassword());
+        
+        
         if (accountOpt.isPresent()) {
             //throw new DuplicateRowException("Duplicate row found");
             account.setAccountId(0); //future review
             return account;//accountOpt.get();
         } else {
+            if(account.getUsername().length()>0&&account.getPassword().length()>=4){
                 account = accountRepository.save(account);
-                return account;          
+                return account;   
+            }
+            else{
+                return null;   //future review
+            }       
         }
  
     }

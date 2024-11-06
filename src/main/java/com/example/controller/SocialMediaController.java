@@ -34,13 +34,16 @@ public class SocialMediaController {
         accountCont = accountService.registerNewUser(account);
         if(accountCont==null)
         {
+            //Failed for other reasons
             return ResponseEntity.status(400).header("Content-Type", "application/json").body(account);
         }
         else if(accountCont.getAccountId()==0){
+            //Duplicated
             return ResponseEntity.status(409).header("Content-Type", "application/json").body(account);
 
         }
         else{
+            //Success
             return ResponseEntity.status(200).header("Content-Type", "application/json").body(accountCont);
 
         }
@@ -52,9 +55,11 @@ public class SocialMediaController {
         Account accountCont;
         accountCont = accountService.login(account);
         if(accountCont.getAccountId()==0){
+            //Failed
             return ResponseEntity.status(401).header("Content-Type", "application/json").body(account);
         }
         else{
+            //Sucessfull
             return ResponseEntity.status(200).header("Content-Type", "application/json").body(accountCont);
 
         }
