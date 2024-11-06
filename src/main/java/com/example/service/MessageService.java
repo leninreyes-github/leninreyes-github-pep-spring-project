@@ -1,41 +1,43 @@
 package com.example.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.entity.Account;
 import com.example.entity.Message;
+import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
 
 @Service
 public class MessageService {
 
     public MessageRepository messageRepository;
+    public AccountRepository accountRepository;
 
     @Autowired
-    public MessageService(MessageRepository messageRepository){
+    public MessageService(MessageRepository messageRepository,AccountRepository accountRepository){
         this.messageRepository = messageRepository;
+        this.accountRepository = accountRepository;
     }
 
-    public Message createNewMessage(Message message) //throws DuplicateRowException
+    public Message createNewMessage(Message message) 
     {
-       return message;
-        /* Optional<Account> accountOpt = accountRepository.findByUsernameAndPassword(account.getUsername(),account.getPassword());
-        
-        
-        if (accountOpt.isPresent()) {
-            //throw new DuplicateRowException("Duplicate row found");
-            account.setAccountId(0); //future review
-            return account;//accountOpt.get();
-        } else {
-            if(account.getUsername().length()>0&&account.getPassword().length()>=4){
-                account = accountRepository.save(account);
-                return account;   
+        if(message.getMessageText().length()<=255&&message.getMessageText().length()>0){
+            Optional<Account> accountOpt;
+            accountOpt = accountRepository.findById(message.getPostedBy());
+            if (accountOpt.isPresent()) {
+                message = messageRepository.save(message);
+                return message;   
+            } else {
+                return null; 
             }
-            else{
-                return null;   //future review
-            }       
         }
-        */
-    }    
+        else{
+            return null;
+        }
+    }
+
 
 }

@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.repository.AccountRepository;
 import com.example.service.AccountService;
+import com.example.service.MessageService;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -22,14 +24,16 @@ import com.example.service.AccountService;
 public class SocialMediaController {
 
     AccountService accountService;
+    MessageService messageService;
 
     @Autowired
-    public SocialMediaController(AccountService accountService){
+    public SocialMediaController(AccountService accountService, MessageService messageService){
         this.accountService = accountService;
+        this.messageService = messageService;
     }
     
     @PostMapping("/register")
-    public ResponseEntity<Account> register (@RequestBody Account account){
+    public ResponseEntity<Account> postRegister (@RequestBody Account account){
         Account accountCont;
         accountCont = accountService.registerNewUser(account);
         if(accountCont==null)
@@ -51,7 +55,7 @@ public class SocialMediaController {
     } 
 
     @PostMapping("/login")
-    public ResponseEntity<Account> login (@RequestBody Account account){
+    public ResponseEntity<Account> postLogin (@RequestBody Account account){
         Account accountCont;
         accountCont = accountService.login(account);
         if(accountCont.getAccountId()==0){
@@ -61,6 +65,22 @@ public class SocialMediaController {
         else{
             //Sucessfull
             return ResponseEntity.status(200).header("Content-Type", "application/json").body(accountCont);
+
+        }
+    }
+
+    
+    @PostMapping("/messages")
+    public ResponseEntity<Message> postMessages (@RequestBody Message message){
+        Message messageCont;
+        messageCont = messageService.createNewMessage(message);
+        if(messageCont==null){
+            //Failed
+            return ResponseEntity.status(400).header("Content-Type", "application/json").body(message);
+        }
+        else{
+            //Sucessfull
+            return ResponseEntity.status(200).header("Content-Type", "application/json").body(messageCont);
 
         }
     }
