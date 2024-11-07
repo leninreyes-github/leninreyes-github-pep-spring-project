@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,8 @@ import com.example.repository.MessageRepository;
 @Service
 public class MessageService {
 
-    public MessageRepository messageRepository;
-    public AccountRepository accountRepository;
+    private MessageRepository messageRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
     public MessageService(MessageRepository messageRepository,AccountRepository accountRepository){
@@ -39,5 +40,12 @@ public class MessageService {
         }
     }
 
+    public List<Message> getMessageList(){
+        return messageRepository.findAll();
+    }
+
+    public List<Message> getMessageListById(Integer messageId){
+        return null;//messageRepository.findAllById(messageId);
+    }
 
 }

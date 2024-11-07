@@ -1,8 +1,11 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +26,8 @@ import com.example.service.MessageService;
  @RestController
 public class SocialMediaController {
 
-    AccountService accountService;
-    MessageService messageService;
+    private AccountService accountService;
+    private MessageService messageService;
 
     @Autowired
     public SocialMediaController(AccountService accountService, MessageService messageService){
@@ -85,5 +88,19 @@ public class SocialMediaController {
         }
     }
 
+    @GetMapping("/messages")
+    public ResponseEntity<List<Message>> getMessages(){
+        List<Message> listMessageCont;
+        listMessageCont = messageService.getMessageList();
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(listMessageCont);
+    }
+
+    @GetMapping("/messages/{messageId}")
+    public ResponseEntity<List<Message>> getMessagesById(@PathVariable Integer messageId){
+        List<Message> listMessageCont;
+        listMessageCont = messageService.getMessageListById(messageId);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(listMessageCont);
+    }
+    
 
 }
