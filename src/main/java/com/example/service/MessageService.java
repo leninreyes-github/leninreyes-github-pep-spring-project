@@ -44,8 +44,17 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public List<Message> getMessageListById(Integer messageId){
-        return null;//messageRepository.findAllById(messageId);
+    public Optional<Message> getMessageListById(Integer messageId){
+        System.out.println("LR Si entra a service");
+        Optional<Message> messageTemp;
+        messageTemp = messageRepository.findById(messageId);
+        System.out.println("messageTemp"+messageTemp);
+        if(messageTemp.isPresent()){
+            return messageTemp;
+        }
+        else{
+            return null;
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -96,11 +97,14 @@ public class SocialMediaController {
     }
 
     @GetMapping("/messages/{messageId}")
-    public ResponseEntity<List<Message>> getMessagesById(@PathVariable Integer messageId){
-        List<Message> listMessageCont;
+    public ResponseEntity<Optional<Message>> getMessagesById(@PathVariable Integer messageId){
+        System.out.println("LR Si entra a Controller");
+        Optional<Message> listMessageCont;
         listMessageCont = messageService.getMessageListById(messageId);
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(listMessageCont);
     }
     
+    
+
 
 }
