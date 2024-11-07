@@ -44,7 +44,7 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public Optional<Message> getMessageListById(Integer messageId){
+    public Optional<Message> getMessageById(Integer messageId){
         System.out.println("LR Si entra a service");
         Optional<Message> messageTemp;
         messageTemp = messageRepository.findById(messageId);
@@ -57,4 +57,38 @@ public class MessageService {
         }
     }
 
+    public Integer deleteMessageById(Integer messageId){
+        Optional<Message> messageTemp;
+        messageTemp = messageRepository.findById(messageId);
+        System.out.println("messageTemp"+messageTemp);
+        if(messageTemp.isPresent()){
+            messageRepository.deleteById(messageId);
+            return 1;
+        }
+        else{
+            return null;
+        }
+
+    }
+
+    /*
+    public Integer updateMessageById(Integer messageId, String messageText){
+
+        if(messageText.length()<=255&&messageText.length()>0){
+            Optional<Message> messageTemp;
+            messageTemp = messageRepository.findById(messageId);
+            if (messageTemp.isPresent()) {
+                messageRepository.updateMessageTextById(messageId, messageText);
+                return 1;   
+            } else {
+                return null; 
+            }
+        }
+        else{
+            return null;
+        }
+
+    }*/
+
 }
+

@@ -7,4 +7,5 @@ import com.example.entity.Message;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
+   //void updateMessageTextById(String messageText, Integer messageId);
 }

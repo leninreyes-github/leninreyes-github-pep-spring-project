@@ -5,15 +5,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
 import com.example.entity.Message;
-import com.example.repository.AccountRepository;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -99,12 +101,26 @@ public class SocialMediaController {
     @GetMapping("/messages/{messageId}")
     public ResponseEntity<Optional<Message>> getMessagesById(@PathVariable Integer messageId){
         System.out.println("LR Si entra a Controller");
-        Optional<Message> listMessageCont;
-        listMessageCont = messageService.getMessageListById(messageId);
-        return ResponseEntity.status(200).header("Content-Type", "application/json").body(listMessageCont);
+        Optional<Message> MessageFound;
+        MessageFound = messageService.getMessageById(messageId);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageFound);
     }
     
-    
+    @DeleteMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> deleteMessagesById(@PathVariable Integer messageId){
+        System.out.println("LR Si entra a Controller");
+        Integer MessageDel;
+        MessageDel = messageService.deleteMessageById(messageId);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageDel);
+    }    
 
+    /*
+    @PatchMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> updateMessagesById(@PathVariable Integer messageId, @RequestParam String messageText){
+        System.out.println("LR Si entra a Controller");
+        Integer MessageUpd;
+        MessageUpd = messageService.updateMessageById(messageId,messageText);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageUpd);
+    }*/
 
 }
