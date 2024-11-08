@@ -100,7 +100,6 @@ public class SocialMediaController {
 
     @GetMapping("/messages/{messageId}")
     public ResponseEntity<Optional<Message>> getMessagesById(@PathVariable Integer messageId){
-        System.out.println("LR Si entra a Controller");
         Optional<Message> MessageFound;
         MessageFound = messageService.getMessageById(messageId);
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageFound);
@@ -108,19 +107,34 @@ public class SocialMediaController {
     
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<Integer> deleteMessagesById(@PathVariable Integer messageId){
-        System.out.println("LR Si entra a Controller");
+        System.out.println("LR Si entra a Controller Delete");
         Integer MessageDel;
         MessageDel = messageService.deleteMessageById(messageId);
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageDel);
     }    
 
-    /*
+    
     @PatchMapping("/messages/{messageId}")
-    public ResponseEntity<Integer> updateMessagesById(@PathVariable Integer messageId, @RequestParam String messageText){
-        System.out.println("LR Si entra a Controller");
+    public ResponseEntity<Integer> updateMessagesById(@PathVariable Integer messageId, @RequestBody Message message){
         Integer MessageUpd;
-        MessageUpd = messageService.updateMessageById(messageId,messageText);
-        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageUpd);
-    }*/
+        MessageUpd = messageService.updateMessageById(messageId,message.getMessageText());
+        if (MessageUpd==null){
+            return ResponseEntity.status(400).header("Content-Type", "application/json").body(MessageUpd);
+        }
+        else{
+            return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageUpd);
+        }
+        
+    }
+
+    /*
+    @GetMapping("/accounts/{accountId}/messages")
+    public ResponseEntity<Optional<Message>> getMessagesByAccountid(@PathVariable Integer accountId){
+        Optional<Message> MessageFound;
+        MessageFound = messageService.getMessageById(accountId);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageFound);
+    }
+    */
+    
 
 }

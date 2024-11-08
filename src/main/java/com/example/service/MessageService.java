@@ -45,7 +45,6 @@ public class MessageService {
     }
 
     public Optional<Message> getMessageById(Integer messageId){
-        System.out.println("LR Si entra a service");
         Optional<Message> messageTemp;
         messageTemp = messageRepository.findById(messageId);
         System.out.println("messageTemp"+messageTemp);
@@ -71,14 +70,16 @@ public class MessageService {
 
     }
 
-    /*
+    
     public Integer updateMessageById(Integer messageId, String messageText){
 
         if(messageText.length()<=255&&messageText.length()>0){
             Optional<Message> messageTemp;
             messageTemp = messageRepository.findById(messageId);
             if (messageTemp.isPresent()) {
-                messageRepository.updateMessageTextById(messageId, messageText);
+                Message message = messageTemp.get();
+                message.setMessageText(messageText);
+                messageRepository.save(message);
                 return 1;   
             } else {
                 return null; 
@@ -88,7 +89,21 @@ public class MessageService {
             return null;
         }
 
+    }
+
+    /*
+    public Optional<Message> getMessageByAccountId(Integer postedBy){
+        Optional<Message> messageTemp;
+        messageTemp = messageRepository.findAllByPostedby(postedBy);
+        System.out.println("messageTemp"+messageTemp);
+        if(messageTemp.isPresent()){
+            return messageTemp;
+        }
+        else{
+            return null;
+        }
     }*/
+
 
 }
 
