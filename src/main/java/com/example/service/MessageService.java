@@ -90,20 +90,10 @@ public class MessageService {
         }
 
     }
-
-    /*
-    public Optional<Message> getMessageByAccountId(Integer postedBy){
-        Optional<Message> messageTemp;
-        messageTemp = messageRepository.findAllByPostedby(postedBy);
-        System.out.println("messageTemp"+messageTemp);
-        if(messageTemp.isPresent()){
-            return messageTemp;
-        }
-        else{
-            return null;
-        }
-    }*/
-
+  
+    public List<Message> getMessageByAccountId(Integer postedBy){
+        return messageRepository.findAllByPostedby(postedBy);
+    }
 
 }
 

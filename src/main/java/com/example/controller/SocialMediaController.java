@@ -50,14 +50,11 @@ public class SocialMediaController {
         else if(accountCont.getAccountId()==0){
             //Duplicated
             return ResponseEntity.status(409).header("Content-Type", "application/json").body(account);
-
         }
         else{
             //Success
             return ResponseEntity.status(200).header("Content-Type", "application/json").body(accountCont);
-
         }
-
     } 
 
     @PostMapping("/login")
@@ -74,7 +71,6 @@ public class SocialMediaController {
 
         }
     }
-
     
     @PostMapping("/messages")
     public ResponseEntity<Message> postMessages (@RequestBody Message message){
@@ -100,41 +96,51 @@ public class SocialMediaController {
 
     @GetMapping("/messages/{messageId}")
     public ResponseEntity<Optional<Message>> getMessagesById(@PathVariable Integer messageId){
-        Optional<Message> MessageFound;
-        MessageFound = messageService.getMessageById(messageId);
-        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageFound);
+        Optional<Message> messageFound;
+        messageFound = messageService.getMessageById(messageId);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(messageFound);
     }
     
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<Integer> deleteMessagesById(@PathVariable Integer messageId){
         System.out.println("LR Si entra a Controller Delete");
-        Integer MessageDel;
-        MessageDel = messageService.deleteMessageById(messageId);
-        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageDel);
+        Integer messageDel;
+        messageDel = messageService.deleteMessageById(messageId);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(messageDel);
     }    
 
     
     @PatchMapping("/messages/{messageId}")
     public ResponseEntity<Integer> updateMessagesById(@PathVariable Integer messageId, @RequestBody Message message){
-        Integer MessageUpd;
-        MessageUpd = messageService.updateMessageById(messageId,message.getMessageText());
-        if (MessageUpd==null){
-            return ResponseEntity.status(400).header("Content-Type", "application/json").body(MessageUpd);
+        Integer messageUpd;
+        Integer httpStatus;
+          messageUpd = messageService.updateMessageById(messageId,message.getMessageText());
+        if (messageUpd==null){
+            httpStatus = 400;
         }
         else{
-            return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageUpd);
-        }
-        
+            httpStatus = 200;
+        }   
+        return ResponseEntity.status(400).header("Content-Type", "application/json").body(messageUpd);
+  
     }
 
-    /*
+    
     @GetMapping("/accounts/{accountId}/messages")
-    public ResponseEntity<Optional<Message>> getMessagesByAccountid(@PathVariable Integer accountId){
-        Optional<Message> MessageFound;
-        MessageFound = messageService.getMessageById(accountId);
-        return ResponseEntity.status(200).header("Content-Type", "application/json").body(MessageFound);
+    public ResponseEntity<List<Message>> getMessagesByAccountid(@PathVariable Integer accountId){
+        List<Message> messagesFound;
+        Integer httpStatus;
+        messagesFound = messageService.getMessageByAccountId(accountId);
+        if(messagesFound.isEmpty())
+        {
+            httpStatus = 400;
+        }
+        else{
+            httpStatus = 200;
+        }
+        return ResponseEntity.status(httpStatus).header("Content-Type", "application/json").body(messagesFound);      
     }
-    */
+    
     
 
 }
