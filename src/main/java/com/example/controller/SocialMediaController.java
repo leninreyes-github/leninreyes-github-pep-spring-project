@@ -121,26 +121,16 @@ public class SocialMediaController {
         else{
             httpStatus = 200;
         }   
-        return ResponseEntity.status(400).header("Content-Type", "application/json").body(messageUpd);
-  
+        return ResponseEntity.status(httpStatus).header("Content-Type", "application/json").body(messageUpd);
     }
-
     
     @GetMapping("/accounts/{accountId}/messages")
     public ResponseEntity<List<Message>> getMessagesByAccountid(@PathVariable Integer accountId){
         List<Message> messagesFound;
-        Integer httpStatus;
+        Integer httpStatus = 200;
         messagesFound = messageService.getMessageByAccountId(accountId);
-        if(messagesFound.isEmpty())
-        {
-            httpStatus = 400;
-        }
-        else{
-            httpStatus = 200;
-        }
+        System.out.println("LR accountId" + accountId + "Es vacio?: " + messagesFound.isEmpty());
         return ResponseEntity.status(httpStatus).header("Content-Type", "application/json").body(messagesFound);      
-    }
-    
-    
+    }  
 
 }
